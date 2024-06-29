@@ -8,5 +8,5 @@ build:
     RAILS_ENV: review
 release:
   command:
-    - rake db:migrate
-    - rake db:seed
+    - rails db:migrate
+    - rails db:seed

@@ -9,4 +9,3 @@ build:
 release:
   command:
     - rails db:migrate
-    - rails db:seed

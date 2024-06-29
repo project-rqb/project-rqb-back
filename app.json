@@ -1,7 +1,7 @@
 {
   "name": "runteq-rqb-back",
-  "description": "runteq overflow のバックエンド",
+  "description": "Your app description",
   "scripts": {
-    "postdeploy": "bundle exec rails db:prepare"
+    "postdeploy": "bundle exec rake db:prepare"
   }
 }

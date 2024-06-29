@@ -1,5 +1,6 @@
 class Api::V1::BasesController < ApplicationController
   def index
-    render json: { message: 'Hello World' }
+    tasks = Task.all
+    render json: tasks, status: :ok
   end
 end

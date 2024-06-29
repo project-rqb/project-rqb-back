@@ -1,4 +1,7 @@
 {
   "name": "runteq-rqb-back",
-  "description": "runteq overflow のバックエンド"
+  "description": "runteq overflow のバックエンド",
+  "scripts": {
+    "postdeploy": "rails db:migrate db:seed"
+  }
 }

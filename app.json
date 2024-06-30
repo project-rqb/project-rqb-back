@@ -1,7 +1,0 @@
-{
-  "name": "runteq-rqb-back",
-  "description": "Your app description",
-  "scripts": {
-    "postdeploy": "bundle exec rake db:prepare"
-  }
-}

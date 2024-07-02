@@ -1,5 +1,5 @@
 class Api::V1::BasesController < ApplicationController
   def index
-    render json: { message: 'Hello, World!' }
+    render json: { message: 'GoodBay, World!' }
   end
 end

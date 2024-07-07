@@ -5,7 +5,6 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.string :provider, null: false
       t.string :github_uid, null: false
       t.string :name
-      t.string :term
       t.text :profile
 
       t.timestamps

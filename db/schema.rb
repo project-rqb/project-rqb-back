@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_05_143355) do
     t.string "provider", null: false
     t.string "github_uid", null: false
     t.string "name"
+    t.integer "term_id"
     t.text "profile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

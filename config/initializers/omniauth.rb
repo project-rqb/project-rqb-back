@@ -4,4 +4,3 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   OmniAuth.config.silence_get_warning = true
   OmniAuth.config.path_prefix = '/api/v1/auth'
 end
-

@@ -21,4 +21,9 @@ gem "rack-cors"
 # 環境変数を管理するためのgem
 gem 'dotenv-rails'
 
+# 認証機能を実装するためのgem
+gem 'omniauth'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-github', '~> 2.0.0'
+
 gem "dockerfile-rails", ">= 1.6", :group => :development

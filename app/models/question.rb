@@ -9,6 +9,10 @@ class Question < ApplicationRecord
 
   enum status: { open: 0, close: 1 }
 
+  def short_uuid
+    Base64.urlsafe_encode64([uuid.delete('-')].pack("H*")).tr('=', '')
+  end
+
   private
 
   def set_uuid

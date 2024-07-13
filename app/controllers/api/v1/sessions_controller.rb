@@ -5,15 +5,15 @@ class Api::V1::SessionsController < ApplicationController
     user_info = request.env['omniauth.auth']
     raise 'GitHub情報の取得に失敗しました' unless user_info
 
-    uid_info = user_info['uid']
-    provider_info = user_info['provider']
-    github_uid_info = user_info['info']['nickname']
-    token_info = encode_access_token(uid_info)
+    user_uid = user_info['uid']
+    user_provider = user_info['provider']
+    user_github_uid = user_info['info']['nickname']
+    encoded_token = encode_access_token(user_uid)
 
-    user_auth = User.find_by(uid: uid_info)
-    User.create(uid: uid_info, provider: provider_info, github_uid: github_uid_info) unless user_auth
+    existing_user = User.find_by(uid: user_uid)
+    User.create(uid: user_uid, provider: user_provider, github_uid: user_github_uid) unless existing_user
 
-    redirect_to "#{ENV['FRONT_URL']}/auth?token=#{token_info}", allow_other_host: true
+    redirect_to "#{ENV['FRONT_URL']}/auth?token=#{encoded_token}", allow_other_host: true
   rescue StandardError => e
     Rails.logger.error("認証エラー: #{e.message}")
     redirect_to "#{ENV['FRONT_URL']}?error=authentication_failed"

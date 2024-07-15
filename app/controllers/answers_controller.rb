@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This controller handles the creation of answers associated with a question
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 

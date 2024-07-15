@@ -2,8 +2,6 @@
 
 # This controller handles the creation of answers associated with a question
 class AnswersController < ApplicationController
-  before_action :authenticate_user!
-
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)

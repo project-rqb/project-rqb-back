@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
     answer.user = @current_user
 
     if @answer.save
-      render json: @answer, status: :created
+      render json: @answer, status: :created, serializer: AnswerSerializer
     else
       render json: @answer.errors, status: :unprocessable_entity
     end

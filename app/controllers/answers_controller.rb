@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
     if @answer.save
       render json: answer, status: :created, serializer: AnswerSerializer
     else
-      render json: answer.errors, status: :unprocessable_entity
+      render json: answer.errors, status: :unprocessable_entity, serializer: AnswerSerializer
     end
   end
 

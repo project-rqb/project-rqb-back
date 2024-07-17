@@ -35,7 +35,7 @@ jobs:
             const reviewers = [mainReviewer, subReviewer];
             const prAuthor = process.env.PR_AUTHOR;
             const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-            const pull_number = process.env.GITHUB_REF.split('/').pop().replace('merge', '').trim();
+            const pull_number = context.payload.pull_request.number;
             await github.rest.pulls.requestReviewers({
               owner,
               repo,

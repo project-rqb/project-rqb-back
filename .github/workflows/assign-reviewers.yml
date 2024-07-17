@@ -35,13 +35,7 @@ jobs:
 
             const mainReviewer = getRandomReviewer(mainReviewers);
             const subReviewer = getRandomReviewer(subReviewers);
-
             const reviewers = [mainReviewer, subReviewer];
-
-            console.log("Main Reviewer: ", mainReviewer);
-            console.log("Sub Reviewer: ", subReviewer);
-            console.log("Reviewers: ", reviewers);
-
             const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
             const pull_number = context.payload.pull_request.number;
 

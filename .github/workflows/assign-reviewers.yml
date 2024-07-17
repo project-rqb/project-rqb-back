@@ -24,24 +24,34 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const mainReviewers = ['gorilla-muscle', 'topi0247'].filter(user => user !== process.env.PR_AUTHOR);
-            const subReviewers = ['UNNNYO', 'neko967', 'miura-taiga'].filter(user => user !== process.env.PR_AUTHOR);
+            const prAuthor = process.env.PR_AUTHOR;
+            const mainReviewers = ['gorilla-muscle', 'topi0247'].filter(user => user !== prAuthor);
+            const subReviewers = ['UNNNYO', 'neko967', 'miura-taiga'].filter(user => user !== prAuthor);
+
             const getRandomReviewer = (reviewers) => {
               const randomIndex = Math.floor(Math.random() * reviewers.length);
               return reviewers[randomIndex];
             };
+
             const mainReviewer = getRandomReviewer(mainReviewers);
             const subReviewer = getRandomReviewer(subReviewers);
+
             const reviewers = [mainReviewer, subReviewer];
-            const prAuthor = process.env.PR_AUTHOR;
+
+            console.log("Main Reviewer: ", mainReviewer);
+            console.log("Sub Reviewer: ", subReviewer);
+            console.log("Reviewers: ", reviewers);
+
             const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
             const pull_number = context.payload.pull_request.number;
+
             await github.rest.pulls.requestReviewers({
               owner,
               repo,
               pull_number,
               reviewers
             });
+
             await github.rest.issues.addAssignees({
               owner,
               repo,

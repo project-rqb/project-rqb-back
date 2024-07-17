@@ -21,7 +21,32 @@ jobs:
         run: yarn install
 
       - name: Assign Reviewers and Assignee
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const mainReviewers = ['gorilla-muscle', 'topi0247'].filter(user => user !== process.env.PR_AUTHOR);
+            const subReviewers = ['UNNNYO', 'neko967', 'miura-taiga'].filter(user => user !== process.env.PR_AUTHOR);
+            const getRandomReviewer = (reviewers) => {
+              const randomIndex = Math.floor(Math.random() * reviewers.length);
+              return reviewers[randomIndex];
+            };
+            const mainReviewer = getRandomReviewer(mainReviewers);
+            const subReviewer = getRandomReviewer(subReviewers);
+            const reviewers = [mainReviewer, subReviewer];
+            const prAuthor = process.env.PR_AUTHOR;
+            const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+            const pull_number = process.env.GITHUB_REF.split('/').pop().replace('merge', '').trim();
+            await github.rest.pulls.requestReviewers({
+              owner,
+              repo,
+              pull_number,
+              reviewers
+            });
+            await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: pull_number,
+              assignees: [prAuthor]
+            });
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-        run: node .github/scripts/assign-reviewers.js

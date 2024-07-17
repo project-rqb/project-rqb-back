@@ -18,7 +18,7 @@ jobs:
           node-version: "20.x"
 
       - name: Install dependencies
-        run: yarn add @octokit/rest
+        run: yarn install
 
       - name: Assign Reviewers and Assignee
         env:
@@ -29,11 +29,10 @@ jobs:
           const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
           let MAIN_REVIEWERS = ['gorilla-muscle', 'topi0247'];
-          let SUB_REVIEWERS = ['UNNNYO', 'UNNNYO', 'miura-taiga'];
+          let SUB_REVIEWERS = ['UNNNYO', 'neko967', 'miura-taiga']; // 重複を削除
 
           const prAuthor = process.env.PR_AUTHOR;
 
-          // プルリクを出したユーザーをレビュワーリストから削除
           MAIN_REVIEWERS = MAIN_REVIEWERS.filter(user => user !== prAuthor);
           SUB_REVIEWERS = SUB_REVIEWERS.filter(user => user !== prAuthor);
 
@@ -48,22 +47,24 @@ jobs:
           const reviewers = [mainReviewer, subReviewer];
 
           (async () => {
-            const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-            const pull_number = process.env.GITHUB_REF.split('/').pop();
+            try {
+              const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+              const pull_number = process.env.GITHUB_REF.split('/').pop().replace('merge', '').trim();
 
-            // レビュワーをアサイン
-            await octokit.pulls.requestReviewers({
-              owner,
-              repo,
-              pull_number,
-              reviewers
-            });
+              await octokit.pulls.requestReviewers({
+                owner,
+                repo,
+                pull_number,
+                reviewers
+              });
 
-            // プルリクエストの作成者をアサイン
-            await octokit.issues.addAssignees({
-              owner,
-              repo,
-              issue_number: pull_number,
-              assignees: [prAuthor]
-            });
+              await octokit.issues.addAssignees({
+                owner,
+                repo,
+                issue_number: pull_number,
+                assignees: [prAuthor]
+              });
+            } catch (error) {
+              console.error(`Error assigning reviewers or assignee: ${error}`);
+            }
           })();

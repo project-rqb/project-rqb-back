@@ -26,4 +26,7 @@ gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-github', '~> 2.0.0'
 
+# jsonデータ整形のためのgem
+gem 'active_model_serializers'
+
 gem "dockerfile-rails", ">= 1.6", :group => :development

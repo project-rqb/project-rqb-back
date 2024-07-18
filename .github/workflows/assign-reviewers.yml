@@ -1,0 +1,62 @@
+name: Assign Reviewers and Assignee
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign_reviewers_and_assignee:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Assign Reviewers and Assignee
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prAuthor = process.env.PR_AUTHOR;
+            const mainReviewers = ['gorilla-muscle', 'topi0247'].filter(user => user !== prAuthor);
+            const subReviewers = ['UNNNYO', 'neko967', 'miura-taiga'].filter(user => user !== prAuthor);
+
+            const getRandomReviewer = (reviewers) => {
+              const randomIndex = Math.floor(Math.random() * reviewers.length);
+              return reviewers[randomIndex];
+            };
+
+            const mainReviewer = getRandomReviewer(mainReviewers);
+            const subReviewer = getRandomReviewer(subReviewers);
+
+            const reviewers = [mainReviewer, subReviewer];
+
+            console.log("Main Reviewer: ", mainReviewer);
+            console.log("Sub Reviewer: ", subReviewer);
+            console.log("Reviewers: ", reviewers);
+
+            const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+            const pull_number = context.payload.pull_request.number;
+
+            await github.rest.pulls.requestReviewers({
+              owner,
+              repo,
+              pull_number,
+              reviewers
+            });
+
+            await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: pull_number,
+              assignees: [prAuthor]
+            });
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}

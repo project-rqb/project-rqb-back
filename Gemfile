@@ -28,5 +28,7 @@ gem 'omniauth-github', '~> 2.0.0'
 
 # jsonデータ整形のためのgem
 gem 'active_model_serializers'
+# tokenを生成するためのgem
+gem 'jwt'
 
 gem "dockerfile-rails", ">= 1.6", :group => :development

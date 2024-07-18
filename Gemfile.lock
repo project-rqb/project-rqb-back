@@ -273,6 +273,7 @@ DEPENDENCIES
   debug
   dockerfile-rails (>= 1.6)
   dotenv-rails
+  jwt
   omniauth
   omniauth-github (~> 2.0.0)
   omniauth-rails_csrf_protection

@@ -1,4 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :name
+  attributes :uid, :name
   has_many :questions, serializer: QuestionSerializer
 end

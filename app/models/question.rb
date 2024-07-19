@@ -2,6 +2,8 @@ class Question < ApplicationRecord
   before_create :set_uuid
   belongs_to :user
 
+  has_many :answers, dependent: :destroy
+
   validates :uuid, presence: true, uniqueness: true
   validates :title, presence: true, length: { maximum: 150 }
   validates :body, presence: true

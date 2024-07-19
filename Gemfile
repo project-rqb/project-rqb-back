@@ -30,3 +30,6 @@ gem 'omniauth-github', '~> 2.0.0'
 gem 'jwt'
 
 gem "dockerfile-rails", ">= 1.6", :group => :development
+
+# シリアライザーを実装するためのgem
+gem 'active_model_serializers'

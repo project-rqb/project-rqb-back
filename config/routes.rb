@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'auth/:provider/callback', to: 'sessions#create'
-      get 'login', to: 'sessions#login'
+      get 'auth/me', to: 'sessions#me'
 
       resources :questions, only: [:create] do
         resources :answers, only: [:create]

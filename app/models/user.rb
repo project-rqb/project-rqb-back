@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  include UuidSetter
+  before_create :set_uuid
+
   has_many :questions
   has_many :answers
 

@@ -1,5 +1,7 @@
 class Question < ApplicationRecord
+  include UuidSetter
   before_create :set_uuid
+
   belongs_to :user
 
   has_many :answers, dependent: :destroy
@@ -10,14 +12,4 @@ class Question < ApplicationRecord
   validates :status, presence: true
 
   enum status: { open: 0, close: 1 }
-
-  def short_uuid
-    Base64.urlsafe_encode64([uuid.delete('-')].pack("H*")).tr('=', '')
-  end
-
-  private
-
-  def set_uuid
-    self.uuid = SecureRandom.uuid
-  end
 end

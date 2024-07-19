@@ -19,7 +19,7 @@ class Api::V1::SessionsController < ApplicationController
     redirect_to "#{ENV['FRONT_URL']}?error=authentication_failed"
   end
 
-  def current_user
-    render json: { current_user: @current_user },  status: :ok
+  def login
+    render json: { current_user: @current_user }, status: :ok
   end
 end

@@ -18,4 +18,8 @@ class Api::V1::SessionsController < ApplicationController
     Rails.logger.error("認証エラー: #{e.message}")
     redirect_to "#{ENV['FRONT_URL']}?error=authentication_failed"
   end
+
+  def current_user
+    render json: { current_user: @current_user },  status: :ok
+  end
 end

@@ -1,4 +1,4 @@
-class Api::V1::SessionsController < ApplicationController
+class Api::V1::SessionsController < Api::V1::BasesController
   skip_before_action :authenticate, only: [:create]
 
   def create
@@ -20,6 +20,6 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def me
-    render json: { current_user: @current_user }, status: :ok
+    render json: @current_user, serializer: UserSerializer
   end
 end

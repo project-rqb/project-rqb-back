@@ -1,4 +1,4 @@
-class Api::V1::SessionsController < ApplicationController
+class Api::V1::SessionsController < Api::V1::BasesController
   skip_before_action :authenticate, only: [:create]
 
   def create
@@ -17,5 +17,9 @@ class Api::V1::SessionsController < ApplicationController
   rescue StandardError => e
     Rails.logger.error("認証エラー: #{e.message}")
     redirect_to "#{ENV['FRONT_URL']}?error=authentication_failed"
+  end
+
+  def me
+    render json: @current_user, serializer: UserSerializer
   end
 end

@@ -8,9 +8,9 @@ class Api::V1::QuestionsController < Api::V1::BasesController
     question = @current_user.questions.new(question_params)
 
     if question.save
-      render json: question, status: :created, serializer: QuestionSerializer
+      render json: { uuid: question.uuid }, status: :created
     else
-      render json: { errors: question.errors.full_messages }, status: :unprocessable_entity
+      render json: { message: question.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

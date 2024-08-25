@@ -3,7 +3,7 @@ include Pagy::Backend
 class Api::V1::QuestionsController < Api::V1::BasesController
   def index
     current_page = params[:page] || 1
-    _, questions = pagy(Question.includes(:user).all, page: current_page)
+    pagy, questions = pagy(Question.includes(:user).all, page: current_page)
     render json: questions, each_serializer: QuestionSerializer
   end
 

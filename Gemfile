@@ -1,14 +1,14 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-ruby "3.2.2"
-gem "rails", "~> 7.1.3", ">= 7.1.3.4"
-gem "pg", "~> 1.1"
-gem "puma", ">= 5.0"
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-gem "bootsnap", require: false
+ruby '3.2.2'
+gem 'bootsnap', require: false
+gem 'pg', '~> 1.1'
+gem 'puma', '>= 5.0'
+gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ]
+  gem 'debug', platforms: %i[mri windows]
 end
 
 group :development do
@@ -16,22 +16,25 @@ group :development do
 end
 
 # フロントとの通信を許可するためのgem
-gem "rack-cors"
+gem 'rack-cors'
 
 # 環境変数を管理するためのgem
 gem 'dotenv-rails'
 
 # 認証機能を実装するためのgem
 gem 'omniauth'
-gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-github', '~> 2.0.0'
+gem 'omniauth-rails_csrf_protection'
 
 # jsonデータ整形のためのgem
 gem 'active_model_serializers'
 # tokenを生成するためのgem
 gem 'jwt'
 
-gem "dockerfile-rails", ">= 1.6", :group => :development
+gem 'dockerfile-rails', '>= 1.6', group: :development
 
 # シリアライザーを実装するためのgem
 gem 'active_model_serializers'
+
+# ページネーション
+gem 'pagy', '~> 9.0'

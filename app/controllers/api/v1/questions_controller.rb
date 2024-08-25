@@ -1,6 +1,9 @@
+include Pagy::Backend
+
 class Api::V1::QuestionsController < Api::V1::BasesController
   def index
-    questions = Question.includes(:user).all
+    current_page = params[:page] || 1
+    _, questions = pagy(Question.includes(:user).all, page: current_page)
     render json: questions, each_serializer: QuestionSerializer
   end
 
@@ -22,6 +25,6 @@ class Api::V1::QuestionsController < Api::V1::BasesController
   private
 
   def question_params
-    params.require(:question).permit(:uuid, :title, :body, :status)
+    params.require(:question).permit(:uuid, :title, :body, :status, :page)
   end
 end

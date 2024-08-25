@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This controller handles the creation of answers associated with a question
-class AnswersController < ApplicationController
+class Api::V1::AnswersController < Api::V1::BasesController
   def create
     question = Question.find(params[:question_id])
     answer = question.answers.build(answer_params)

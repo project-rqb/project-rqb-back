@@ -7,7 +7,14 @@ module Api
     class QuestionsController < Api::V1::BasesController
       def index
         current_page = params[:page] || 1
-        pagy, questions = pagy(Question.includes(:user).all, page: current_page)
+        order_by = params[:order] || 'new'
+        order_by = if order_by == 'new'
+                     'desc'
+                   else
+                     'asc'
+                   end
+        _, questions = pagy(Question.includes(:user).all.order("created_at #{order_by}"), items: 10,
+                                                                                          page: current_page)
         render json: questions, each_serializer: QuestionSerializer
       end
 
@@ -43,7 +50,7 @@ module Api
       private
 
       def question_params
-        params.require(:question).permit(:uuid, :title, :body, :status, :page)
+        params.require(:question).permit(:uuid, :title, :body, :status)
       end
     end
   end

@@ -21,9 +21,23 @@ module Api
         end
       end
 
+      def show
+        question = Question.find_by(uuid: params[:id])
+        render json: question, serializer: QuestionSerializer
+      end
+
       def count_all_questions
         all_count = Question.count
         render json: { count: all_count }
+      end
+
+      def close
+        question = Question.find_by!(uuid: params[:id])
+        if question.update(status: 'close')
+          render json: { status: question.status }, status: :ok
+        else
+          render json: { errors: question.errors.full_messages }, status: :unprocessable_entity
+        end
       end
 
       private

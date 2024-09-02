@@ -13,7 +13,7 @@ class Api::V1::SessionsController < Api::V1::BasesController
     existing_user = User.find_by(uid: user_uid)
     User.create(uid: user_uid, provider: user_provider, github_uid: user_github_uid) unless existing_user
 
-    redirect_to "#{ENV['FRONT_URL']}?token=#{encoded_token}", allow_other_host: true
+    redirect_to "#{ENV['FRONT_URL']}/auth?token=#{encoded_token}", allow_other_host: true
   rescue StandardError => e
     Rails.logger.error("認証エラー: #{e.message}")
     redirect_to "#{ENV['FRONT_URL']}?error=authentication_failed"

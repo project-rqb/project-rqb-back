@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
   include UuidSetter
-  before_create :set_uuid
+  before_validation :set_uuid, on: :create
 
   belongs_to :user
 

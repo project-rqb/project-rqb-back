@@ -5,6 +5,8 @@ class Question < ApplicationRecord
   belongs_to :user
 
   has_many :answers, dependent: :destroy
+  has_many :question_tags
+  has_many :tags, through: :question_tags
 
   validates :uuid, presence: true, uniqueness: true
   validates :title, presence: true, length: { maximum: 150 }

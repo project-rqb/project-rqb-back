@@ -24,6 +24,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_03_011546) do
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
+  create_table "question_tags", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["question_id", "tag_id"], name: "index_question_tags_on_question_id_and_tag_id", unique: true
+    t.index ["question_id"], name: "index_question_tags_on_question_id"
+    t.index ["tag_id"], name: "index_question_tags_on_tag_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "uuid", null: false
@@ -73,6 +81,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_03_011546) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "question_tags", "questions"
+  add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"
   add_foreign_key "user_learned_tags", "tags"
   add_foreign_key "user_learned_tags", "users"

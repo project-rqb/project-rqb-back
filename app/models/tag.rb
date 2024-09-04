@@ -1,4 +1,6 @@
 class Tag < ApplicationRecord
+  has_many :question_tags
+  has_many :questions, through: :question_tags
   has_many :user_learning_tags
   has_many :learning_users, through: :user_learning_tags, source: :user
   has_many :user_learned_tags

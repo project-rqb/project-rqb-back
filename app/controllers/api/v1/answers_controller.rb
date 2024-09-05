@@ -2,6 +2,8 @@
 
 # This controller handles the creation of answers associated with a question
 class Api::V1::AnswersController < Api::V1::BasesController
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def index
     question = Question.find_by!(uuid: params[:question_id])
 
@@ -25,5 +27,9 @@ class Api::V1::AnswersController < Api::V1::BasesController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def record_not_found
+    render json: { error: '質問が見つかりません' }, status: :not_found
   end
 end

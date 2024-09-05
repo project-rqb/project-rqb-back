@@ -5,6 +5,8 @@ include Pagy::Backend
 module Api
   module V1
     class QuestionsController < Api::V1::BasesController
+      rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
       def index
         current_page = params[:page] || 1
         order_by = params[:order] || 'new'
@@ -30,7 +32,6 @@ module Api
 
       def show
         question = Question.find_by!(uuid: params[:id])
-
         render json: question, serializer: QuestionSerializer
       end
 
@@ -52,6 +53,10 @@ module Api
 
       def question_params
         params.require(:question).permit(:uuid, :title, :body, :status)
+      end
+
+      def record_not_found
+        render json: { error: '質問が見つかりません' }, status: :not_found
       end
     end
   end

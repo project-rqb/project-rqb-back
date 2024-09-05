@@ -3,12 +3,7 @@
 # This controller handles the creation of answers associated with a question
 class Api::V1::AnswersController < Api::V1::BasesController
   def index
-    question = Question.find_by(uuid: params[:question_id])
-
-    if question.nil?
-      render json: { error: 'Question not found' }, status: :not_found
-      return
-    end
+    question = Question.find_by!(uuid: params[:question_id])
 
     answers = question.answers
     render json: answers, each_serializer: AnswerSerializer

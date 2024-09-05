@@ -29,12 +29,7 @@ module Api
       end
 
       def show
-        question = Question.find_by(uuid: params[:id])
-
-        if question.nil?
-          render json: { error: 'Question not found' }, status: :not_found
-          return
-        end
+        question = Question.find_by!(uuid: params[:id])
 
         render json: question, serializer: QuestionSerializer
       end

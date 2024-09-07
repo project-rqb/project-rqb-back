@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-include Pagy::Backend
-
 module Api
   module V1
+    # 質問に関するAPIを管理するクラス
     class QuestionsController < Api::V1::BasesController
+      include Pagy::Backend
       def index
         current_page = params[:page] || 1
         order_by = params[:order] || 'new'

@@ -1,21 +1,19 @@
+# frozen_string_literal: true
+
+# ChatGPTからレビューを受け取るクラス
 class Chatgpt
   include HTTParty
 
   attr_reader :api_url, :options, :model, :message
 
   def initialize(title, tags, question, model)
-    api_key = ENV['OPENAI_API_KEY']
-    @options = {
-      headers: {
-        'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{api_key}"
-      }
-    }
+    @api_key = ENV['OPENAI_API_KEY']
     @api_url = 'https://api.openai.com/v1/chat/completions'
     @model = model
     @title = title
     @tags = tags.join(', ')
     @question = question
+    @options = default_options
   end
 
   def call
@@ -23,7 +21,7 @@ class Chatgpt
       model:,
       messages: [{ role: 'user', content: prompt }]
     }
-    response = HTTParty.post(@api_url, body: body.to_json, **options, timeout: 100)
+    response = HTTParty.post(@api_url, body: body.to_json, **@options, timeout: 100)
     raise response['error']['message'] unless response.code == 200
 
     response['choices'][0]['message']['content']
@@ -37,8 +35,17 @@ class Chatgpt
 
   private
 
+  def default_options
+    {
+      headers: {
+        'Content-Type' => 'application/json',
+        'Authorization' => "Bearer #{@api_key}"
+      }
+    }
+  end
+
   def prompt
-    <<~EOS
+    <<~REVIEW_PROMPT
       あなたはテックリードのWebエンジニアです。あなたのチームに実務未経験の新人エンジニアが配属されました。あるプロジェクトにおいて新人エンジニアから質問が来ました。
       以下の要件と形式に沿って、新人エンジニアからの質問の仕方をレビューしてください。
 
@@ -74,6 +81,6 @@ class Chatgpt
       ## 質問内容
       ここ以降はすべて質問内容です。
       #{@message}
-    EOS
+    REVIEW_PROMPT
   end
 end

@@ -49,10 +49,27 @@ module Api
         end
       end
 
+      def tags
+        question = Question.find_by!(uuid: params[:id])
+        tags = question.tags
+        render json: tags, each_serializer: TagSerializer
+      end
+
+      def tag
+        question = Question.find_by!(uuid: params[:id])
+        tag = question.tags.find_by(id: params[:tag_id])
+
+        if tag.nil?
+          render json: { message: 'タグが見つかりません' }, status: :ok
+        else
+          render json: tag, serializer: TagSerializer
+        end
+      end
+
       private
 
       def question_params
-        params.require(:question).permit(:uuid, :title, :body, :status)
+        params.require(:question).permit(:uuid, :title, :body, :status, tag_ids: [])
       end
 
       def record_not_found

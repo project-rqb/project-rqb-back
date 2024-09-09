@@ -11,9 +11,12 @@ Rails.application.routes.draw do
         resources :answers, only: %i[create index]
         member do
           patch 'close', to: 'questions#close'
+          get 'tags', to: 'questions#tags'
+          get 'tags/:tag_id', to: 'questions#tag'
         end
       end
       get 'questions/all_count', to: 'questions#count_all_questions'
     end
   end
 end
+

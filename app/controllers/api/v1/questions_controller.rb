@@ -58,7 +58,7 @@ module Api
       private
 
       def question_params
-        params.require(:question).permit(:uuid, :title, :body, :status, tag_ids: [])
+        params.require(:question).permit(:uuid, :title, :body, :status)
       end
 
       def record_not_found

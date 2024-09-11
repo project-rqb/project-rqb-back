@@ -14,4 +14,13 @@ class Question < ApplicationRecord
   validates :status, presence: true
 
   enum status: { open: 0, close: 1 }
+
+  scope :search, ->(query) do
+    return all if query.blank?
+
+    terms = query.split(/[\s,]+/).map(&:strip).reject(&:empty?)
+    terms.inject(all) do |result, string|
+      result.where("title LIKE ? OR body LIKE ?", "%#{string}%", "%#{string}%")
+    end
+  end
 end

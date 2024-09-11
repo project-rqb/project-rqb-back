@@ -11,8 +11,8 @@ module Api
         current_page = params[:page] || 1
         order_by = params[:order] || 'new'
         order_by = order_by == 'new' ? 'desc' : 'asc'
-        _, questions = pagy(Question.includes(:user).all.order("created_at #{order_by}"), items: 10,
-                                                                                          page: current_page)
+        _, questions = pagy(Question.includes(:user, :tags).all.order("created_at #{order_by}"), items: 10,
+                                                                                                 page: current_page)
         render json: questions, each_serializer: QuestionSerializer
       end
 

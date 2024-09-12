@@ -49,6 +49,12 @@ module Api
         end
       end
 
+      def tags
+        question = Question.find_by!(uuid: params[:id])
+        tags = question.tags
+        render json: tags, each_serializer: TagSerializer
+      end
+
       private
 
       def question_params

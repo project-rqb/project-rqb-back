@@ -15,8 +15,8 @@ module Api
                    else
                      'asc'
                    end
-        _, questions = pagy(Question.includes(:user).all.order("created_at #{order_by}"), items: 10,
-                                                                                          page: current_page)
+        _, questions = pagy(Question.includes(:user).references(:user).all
+                            .order("questions.created_at #{order_by}"), items: 10, page: current_page)
         render json: questions, each_serializer: QuestionSerializer
       end
 

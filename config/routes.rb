@@ -7,10 +7,12 @@ Rails.application.routes.draw do
       get 'auth/:provider/callback', to: 'sessions#create'
       get 'auth/me', to: 'sessions#me'
 
+      get 'questions/all_count', to: 'questions#count_all_questions'
       resources :questions, only: %i[index create show] do
         resources :answers, only: %i[create index]
         member do
           patch 'close', to: 'questions#close'
+          get 'tags', to: 'questions#tags'
         end
       end
       get 'questions/all_count', to: 'questions#count_all_questions'

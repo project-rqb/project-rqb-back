@@ -10,9 +10,9 @@ module Api
       def index
         current_page = params[:page] || 1
         order_by = params[:order] || 'new'
-        order_by = order_by == 'new' ? 'desc' : 'asc'
-        _, questions = pagy(Question.includes(:user, :tags).all.order("created_at #{order_by}"), items: 10,
-                                                                                                 page: current_page)
+        order_by = order_by ? 'desc' : 'asc'
+        _, questions = pagy(Question.includes(:user).references(:user).all
+                            .order("questions.created_at #{order_by}"), items: 10, page: current_page)
         render json: questions, each_serializer: QuestionSerializer
       end
 
@@ -58,6 +58,12 @@ module Api
         else
           render json: { errors: question.errors.full_messages }, status: :unprocessable_entity
         end
+      end
+
+      def tags
+        question = Question.find_by!(uuid: params[:id])
+        tags = question.tags
+        render json: tags, each_serializer: TagSerializer
       end
 
       private

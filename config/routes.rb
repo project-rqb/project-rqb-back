@@ -15,7 +15,8 @@ Rails.application.routes.draw do
           get 'tags', to: 'questions#tags'
         end
       end
+      get 'questions/all_count', to: 'questions#count_all_questions'
+      post 'questions/ai_review', to: 'questions#ai_review'
     end
   end
 end
-

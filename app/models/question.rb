@@ -14,4 +14,13 @@ class Question < ApplicationRecord
   validates :status, presence: true
 
   enum status: { open: 0, close: 1 }
+
+  def add_tags(tags)
+    return if tags.blank?
+
+    tags.each do |tag|
+      tag = Tag.find_or_create_by(name: tag)
+      self.tags << tag
+    end
+  end
 end

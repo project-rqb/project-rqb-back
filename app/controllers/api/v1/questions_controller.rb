@@ -19,8 +19,7 @@ module Api
       def create
         question_params_without_tags = question_params.except(:tags)
         question = @current_user.questions.new(question_params_without_tags)
-
-        # TODO: tagsを保存する処理を追加する
+        question.add_tags(question_params[:tags])
 
         if question.save
           render json: { uuid: question.uuid }, status: :created

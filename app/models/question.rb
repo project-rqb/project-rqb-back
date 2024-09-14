@@ -18,8 +18,8 @@ class Question < ApplicationRecord
   scope :search, ->(query) do
     return all if query.blank?
 
-    terms = query.split(/[\s,、]+/).map(&:strip).reject(&:empty?)
-    terms.inject(all) do |result, string|
+    word = query.split(/[\s,、]+/).map(&:strip).reject(&:empty?)
+    word.inject(all) do |result, string|
       result.where("title LIKE ? OR body LIKE ?", "%#{string}%", "%#{string}%")
     end
   end

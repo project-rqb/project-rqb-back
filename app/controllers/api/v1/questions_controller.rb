@@ -13,7 +13,7 @@ module Api
                    else
                      'asc'
                    end
-        _, questions = pagy(Question.includes(:user).search(params[:search]).order("created_at #{order_by}"), items: 10, page: current_page)
+        _, questions = pagy(Question.includes(:user).search(search_params[:search]).order("created_at #{order_by}"), items: 10, page: current_page)
         render json: questions, each_serializer: QuestionSerializer
       end
 
@@ -28,7 +28,7 @@ module Api
       end
 
       def count_all_questions
-        all_count = Question.search(params[:search]).count
+        all_count = Question.search(search_params[:search]).count
         render json: { count: all_count }
       end
 
@@ -36,6 +36,10 @@ module Api
 
       def question_params
         params.require(:question).permit(:uuid, :title, :body, :status)
+      end
+
+      def search_params
+        params.permit(:search)
       end
     end
   end

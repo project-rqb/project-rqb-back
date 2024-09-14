@@ -15,7 +15,7 @@ FRONT_URL=http://localhost:8000
 GITHUB_KEY=　「githubのClient ID　例(Ov23****************)」
 GITHUB_SECRET=　「githubのClient secrets　例(**********f118)」
 JWT_SECRET_KEY=　「生成したシークレットキー」
-
+OPENAI_API_KEY=
 ```
 
 ## 認証機能の追加方法
@@ -37,3 +37,5 @@ JWT_SECRET_KEYはシークレットキーを生成して設定する必要があ
 ```
 node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
 ```
+## OpenAI APIの秘密鍵について
+秘匿情報なので別途送らせていただきます。

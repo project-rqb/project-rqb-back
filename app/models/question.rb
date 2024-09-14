@@ -21,6 +21,14 @@ class Question < ApplicationRecord
     word = query.split(/[\s,、]+/).map(&:strip).reject(&:empty?)
     word.inject(all) do |result, string|
       result.where("title LIKE ? OR body LIKE ?", "%#{string}%", "%#{string}%")
+  end
+
+  def add_tags(tags)
+    return if tags.blank?
+
+    tags.each do |tag|
+      tag = Tag.find_or_create_by(name: tag)
+      self.tags << tag
     end
   end
 end

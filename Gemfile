@@ -40,3 +40,6 @@ gem 'active_model_serializers'
 
 # ページネーション
 gem 'pagy', '~> 9.0'
+
+# リクエストを送信するためのgem
+gem 'httparty'

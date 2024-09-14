@@ -11,7 +11,10 @@ class Api::V1::SessionsController < Api::V1::BasesController
     encoded_token = encode_access_token(user_uid)
 
     existing_user = User.find_by(uid: user_uid)
-    User.create(uid: user_uid, provider: user_provider, github_uid: user_github_uid) unless existing_user
+    unless existing_user
+      User.create(uid: user_uid, provider: user_provider, github_uid: user_github_uid,
+                  name: user_github_uid)
+    end
 
     redirect_to "#{ENV['FRONT_URL']}?token=#{encoded_token}", allow_other_host: true
   rescue StandardError => e

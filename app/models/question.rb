@@ -20,7 +20,7 @@ class Question < ApplicationRecord
 
     word = query.split(/[\s,、]+/).map(&:strip).reject(&:empty?)
     word.inject(all) do |result, string|
-      result.where("title LIKE ? OR body LIKE ?", "%#{string}%", "%#{string}%")
+      result.left_joins(:tags).where("title LIKE ? OR body LIKE ? OR tags.name LIKE ?", "%#{string}%", "%#{string}%", "%#{string}%")
     end
   end
 

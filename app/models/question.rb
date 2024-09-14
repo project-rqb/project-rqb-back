@@ -15,6 +15,15 @@ class Question < ApplicationRecord
 
   enum status: { open: 0, close: 1 }
 
+  scope :search, ->(query) do
+    return all if query.blank?
+
+    word = query.split(/[\s,、]+/).map(&:strip).reject(&:empty?)
+    word.inject(all) do |result, string|
+      result.left_joins(:tags).where("title LIKE ? OR body LIKE ? OR tags.name LIKE ?", "%#{string}%", "%#{string}%", "%#{string}%")
+    end
+  end
+
   def add_tags(tags)
     return if tags.blank?
 

@@ -11,7 +11,7 @@ module Api
         current_page = params[:page] || 1
         order_by = params[:order] || 'new'
         order_by = order_by ? 'desc' : 'asc'
-        _, questions = pagy(Question.includes(:user).references(:user).all
+        _, questions = pagy(Question.includes(:user).references(:user).search(search_params[:search])
                             .order("questions.created_at #{order_by}"), items: 10, page: current_page)
         render json: questions, each_serializer: QuestionSerializer
       end
@@ -34,7 +34,7 @@ module Api
       end
 
       def count_all_questions
-        all_count = Question.count
+        all_count = Question.search(search_params[:search]).count
         render json: { count: all_count }
       end
 
@@ -73,6 +73,10 @@ module Api
 
       def record_not_found
         render json: { error: '質問が見つかりません' }, status: :not_found
+      end
+
+      def search_params
+        params.permit(:search)
       end
     end
   end

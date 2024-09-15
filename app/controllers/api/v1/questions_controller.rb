@@ -13,8 +13,12 @@ module Api
                    else
                      'asc'
                    end
-        _, questions = pagy(Question.includes(:user).all.order("created_at #{order_by}"), items: 10,
-                                                                                          page: current_page)
+        _, questions = if params[:uuid]
+                         pagy(User.find_by(uuid: params[:uuid]).questions.includes(:user).order("created_at #{order_by}"), items: 10, page: current_page)                                                                                   
+                       else
+                         pagy(Question.includes(:user).all.order("created_at #{order_by}"), items: 10,
+                                                                                            page: current_page)
+                       end
         render json: questions, each_serializer: QuestionSerializer
       end
 

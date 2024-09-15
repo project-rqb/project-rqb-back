@@ -43,3 +43,15 @@ gem 'pagy', '~> 9.0'
 
 # リクエストを送信するためのgem
 gem 'httparty'
+
+# 画像アップローダー
+gem 'carrierwave', '~> 3.0'
+# base64形式の画像をアップロードするためのgem
+gem 'carrierwave-base64'
+
+# AWS S3に画像をアップロードするためのgem
+gem 'fog-aws', group: :production
+
+# 画像加工
+gem 'image_processing', '~> 1.2'
+gem 'mini_magick'

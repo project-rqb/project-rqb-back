@@ -1,7 +1,7 @@
 FROM ruby:3.2.2
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libvips
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libvips imagemagick
 RUN mkdir /app
 WORKDIR /app
 RUN gem install bundler

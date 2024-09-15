@@ -17,6 +17,8 @@ Rails.application.routes.draw do
       end
       get 'questions/all_count', to: 'questions#count_all_questions'
       post 'questions/ai_review', to: 'questions#ai_review'
+
+      resources :users, only: %i[show update]
     end
   end
 end

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       post 'questions/ai_review', to: 'questions#ai_review'
 
       resources :users, only: %i[show update]
+      resources :terms, only: %i[index]
     end
   end
 end

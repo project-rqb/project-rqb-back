@@ -10,7 +10,7 @@ module Api
       def index
         current_page = params[:page] || 1
         order_by = params[:order] || 'new'
-        order_by = order_by ? 'desc' : 'asc'
+        order_by = order_by == 'new' ? 'desc' : 'asc'
         _, questions = pagy(Question.includes(:user).references(:user).search(search_params[:search]).filter_by_tag(tag_params[:tag])
                             .order("questions.created_at #{order_by}"), items: 10, page: current_page)
         render json: questions, each_serializer: QuestionSerializer

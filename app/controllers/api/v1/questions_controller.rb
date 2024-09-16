@@ -11,7 +11,7 @@ module Api
         current_page = params[:page] || 1
         order_by = params[:order] || 'new'
         order_by = order_by ? 'desc' : 'asc'
-        _, questions = pagy(Question.includes(:user).references(:user).search(search_params[:search])
+_, questions = pagy(Question.includes(:user).references(:user).search(search_params[:search]).filter_by_tag(tag_params[:tag])
                             .order("questions.created_at #{order_by}"), items: 10, page: current_page)
         render json: questions, each_serializer: QuestionSerializer
       end
@@ -34,7 +34,7 @@ module Api
       end
 
       def count_all_questions
-        all_count = Question.search(search_params[:search]).count
+        all_count = Question.search(search_params[:search]).filter_by_tag(tag_params[:tag]).count
         render json: { count: all_count }
       end
 
@@ -77,6 +77,10 @@ module Api
 
       def search_params
         params.permit(:search)
+      end
+
+      def tag_params
+        params.permit(:tag)
       end
     end
   end

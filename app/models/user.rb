@@ -11,6 +11,9 @@ class User < ApplicationRecord
   has_many :user_learned_tags
   has_many :learned_tags, through: :user_learned_tags, source: :tag
 
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to :term, optional: true
+
   mount_base64_uploader :avatar, AvatarUploader, file_name: lambda(&:id)
 
   validates :uid, presence: true, uniqueness: true
@@ -37,5 +40,12 @@ class User < ApplicationRecord
       tag = Tag.find_or_create_by(name: tag)
       learning_tags << tag
     end
+  end
+
+  def update_term(term_name)
+    return if term_id.present? || term_name.blank?
+
+    term = Term.find_by(name: term_name)
+    self.term_id = term.id if term.present?
   end
 end

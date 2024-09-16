@@ -55,3 +55,6 @@ gem 'fog-aws', group: :production
 # 画像加工
 gem 'image_processing', '~> 1.2'
 gem 'mini_magick'
+
+# DBとして保持しないデータを扱うGem
+gem 'active_hash'

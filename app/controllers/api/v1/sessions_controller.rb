@@ -10,6 +10,10 @@ class Api::V1::SessionsController < Api::V1::BasesController
     user_github_uid = user_info['info']['nickname']
     encoded_token = encode_access_token(user_uid)
 
+    unless is_member = GithubService.check_org_membership(user_github_uid)
+      return redirect_to "#{ENV['FRONT_URL']}?error=not_member", allow_other_host: true
+    end
+
     existing_user = User.find_by(uid: user_uid)
     unless existing_user
       User.create(uid: user_uid, provider: user_provider, github_uid: user_github_uid,

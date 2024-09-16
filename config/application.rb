@@ -1,6 +1,6 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails/all"
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -14,10 +14,10 @@ module App
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w(assets tasks))
+    config.autoload_lib(ignore: %w[assets tasks])
 
     # zeitwerkでの"active_model_serializer"読み込みのために追加
-    config.autoload_paths += %W(#{config.root}/app/serializers)
+    config.autoload_paths += %W[#{config.root}/app/serializers]
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -37,6 +37,7 @@ module App
       g.helper false
       g.test_framework nil
     end
+    config.time_zone = 'Tokyo'
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: 'rqb_session'
   end

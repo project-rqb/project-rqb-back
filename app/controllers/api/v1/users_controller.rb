@@ -12,9 +12,10 @@ module Api
       end
 
       def update
+        @current_user.update_term(user_params[:term])
         @current_user.add_learned_tags(user_params[:learned_tags])
         @current_user.add_learning_tags(user_params[:learning_tags])
-        user_params_without_tags = user_params.except(:learned_tags, :learning_tags)
+        user_params_without_tags = user_params.except(:term, :learned_tags, :learning_tags)
 
         begin
           @current_user.update!(user_params_without_tags)
@@ -43,7 +44,7 @@ module Api
       private
 
       def user_params
-        params.require(:user).permit(:name, :profile, :avatar, learned_tags: [], learning_tags: [])
+        params.require(:user).permit(:name, :profile, :avatar, :term, learned_tags: [], learning_tags: [])
       end
 
       def record_not_found

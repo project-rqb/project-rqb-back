@@ -16,7 +16,7 @@ class Api::V1::AnswersController < Api::V1::BasesController
     answer = question.answers.new(answer_params)
     answer.user = @current_user
 
-    if answer.save
+    if answer.save && question.status != "close"
       render json: answer, status: :created, serializer: AnswerSerializer
     else
       render json: { errors: answer.errors.full_messages }, status: :unprocessable_entity

@@ -37,7 +37,7 @@ module Api
       def all_questions_count
         user = User.find_by!(uuid: params[:id])
         tab = params[:tab] || 'questions'
-        all_count = tab == 'questions' ? user.questions.count : user.answers.count
+        all_count = tab == 'questions' ? user.questions.count : user.answers.select(:question_id).distinct.count
         render json: { count: all_count }, status: :ok
       end
 
@@ -55,7 +55,7 @@ module Api
         if tab == 'questions'
           pagy(user.questions.order('created_at desc'), items: 10, page: current_page)
         else
-          questions_relation = Question.joins(:answers).where(answers: { user_id: user.id }).order('questions.created_at desc')
+          questions_relation = Question.joins(:answers).where(answers: { user_id: user.id }).order('questions.created_at desc').distinct
           pagy(questions_relation, items: 10, page: current_page)
         end
       end

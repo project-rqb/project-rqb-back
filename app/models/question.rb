@@ -37,4 +37,11 @@ class Question < ApplicationRecord
       self.tags << tag
     end
   end
+
+  def update_tags(tags)
+    return if tags.blank?
+
+    self.tags.clear
+    add_tags(tags)
+  end
 end

@@ -33,6 +33,18 @@ module Api
         render json: question, serializer: QuestionSerializer
       end
 
+      def update
+        question = Question.find_by!(uuid: params[:id])
+        question_params_without_tags = question_params.except(:tags)
+        question.update_tags(question_params[:tags])
+
+        if question.update(question_params_without_tags) && question.status != 'close'
+          render json: question, serializer: QuestionSerializer, status: :ok
+        else
+          render json: { errors: question.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       def count_all_questions
         all_count = Question.search(search_params[:search]).filter_by_tag(tag_params[:tag]).count
         render json: { count: all_count }
